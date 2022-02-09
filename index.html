@@ -1,0 +1,231 @@
+<html>
+   <head>
+      <title>Duels de citations</title>
+      <link rel="stylesheet" href="bulma.min.css" />
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   </head>
+   <body>
+      <!-- en_tête, barre de navigation avec bouton de connexion -->
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+         <div class="navbar-end">
+            <div class="navbar-item">
+               <div class="buttons">
+                  <a id="btn-open-login-modal" class="button is-light">
+                    Connexion
+                 </a>
+               </div>
+            </div>
+         </div>
+      </nav>
+      <!-- bannière  -->
+      <section class="hero is-primary">
+         <div class="hero-body">
+            <h1 class="title">Duels de citations</h1>
+            <p class="subtitle">Quelle est votre citation favorite ?</p>
+         </div>
+      </section>
+      <section class="section">
+      <!-- barre de navigation -->
+      <div class="tabs is-centered">
+         <ul>
+            <li class="is-active" id="tab-duel"><a>Voter</a></li>
+            <li id="tab-tout"><a>Toutes les citations</a></li>
+         </ul>
+      </div>
+      <!-- tab de duels "voter" -->
+      <div class="columns" id="div-duel">
+         <!-- citation de gauche -->
+         <div class="column">
+            <div class="card">
+               <div class="columns card-content">
+                 <div class="column is-one-third">
+                    <div class="card-image">
+                       <figure class="image">
+                          <img class="imageCitation" id="imageCitation"/>
+                       </figure>
+                    </div>
+                 </div>
+                 <div class="column is-8">
+                    <p class="title titre" id="titre"></p>
+                    <p class="subtitle personnage" id="personnage"></p>
+                    <p  class="idCitation" id="idCitation" visibility: hidden></p>
+                 </div>
+               </div>
+               <!-- bouton vote gauche -->
+               <div class="card-content">
+                 <div class="columns is-centered">
+                    <p class="button is-danger"  onclick="vote('gauche')">
+                       Voter pour la citation de gauche !
+                    </p>
+                 </div>
+              </div>
+           </div>
+         </div>
+         <!-- citation de droite -->
+         <div class="column">
+           <div class="card">
+             <div class="columns card-content">
+               <div class="column is-8">
+                  <p class="title titre" id="titre"></p>
+                  <p class="subtitle personnage" id="personnage"></p>
+                  <p class="idCitation" id="idCitation" visibility: hidden></p>
+               </div>
+               <div class="column is-one-third">
+                  <div class="card-image">
+                     <figure class="image">
+                       <img class="imageCitation" id="imageCitation"/>
+                     </figure>
+                  </div>
+               </div>
+             </div>
+             <!-- bouton vote droit -->
+             <div class="card-content">
+               <div class="columns is-centered">
+                  <p class="button is-info"  onclick="vote('droite')">
+                     Voter pour la citation de droite !</p>
+               </div>
+             </div>
+           </div>
+         </div>
+      </div>
+      <!-- tab des citations "toutes les citations" -->
+      <div id="div-tout">
+        <!-- tableau des citations -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Classement</th>
+              <th>Personnage</th>
+              <th>Citation</th>
+              <th><button class="button is-primary is-rounded" onclick="OuvreModalAjout()">
+               Ajouter une citation</button></th>
+            </tr>
+          </thead>
+          <tbody id="tabCitations">
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <!-- boite modal connexion -->
+    <div id="mdl-login" class="modal is-active">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Connexion</p>
+          <button id="btn-close-login-modal1" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <p id="elt-affichage-login">
+            Ici, il faudrait afficher le login de l'utilisateur.
+          </p>
+        </section>
+        <footer class="modal-card-foot" style="justify-content: flex-end">
+          <button id="btn-close-login-modal2" class="button">Fermer</button>
+          <div id="btn-login-apiKey"></div>
+        </footer>
+      </div>
+    </div>
+    <!-- boite modal détails de citations -->
+    <div id="mdl-details" class="modal" <style>position: fixed</style>
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Detail de la citation</p>
+          <button class="delete" aria-label="close" onclick="close_detail()"></button>
+        </header>
+        <section class="modal-card-body">
+         <p id="quote"></p>
+         <p id="character"></p>
+         <p id="image"></p>
+         <p id="character-direction"></p>
+         <p id="origin"></p>
+         <p id="proprietaire"></p>
+        </section>
+        <footer class="modal-card-foot" style="justify-content: flex-end">
+          <button class="button" onclick="close_detail()">Fermer</button>
+        </footer>
+      </div>
+    </div>
+    <!-- Boîte modale ajout de citation -->
+    <div class="modal" id="mdl-ajoutCitation">
+        <div class="modal-background"></div>
+          <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title" >Ajout d'une citation</p>
+            <button class="delete" aria-label="close" onclick="FermeModalAjout()"></button>
+          </header>
+          <section class="modal-card-body">
+            <label class="label">Citation</label>
+              <div class="control">
+               <textarea id="Quote" class="textarea" placeholder="you sall not pass" rows="2" required></textarea>
+              </div>
+            <label class="label">Personnage</label>
+              <div class="control">
+                <input id="Perso" class="input" type="text" placeholder="Gandalf">
+              </div>
+              <label class="label">Origine</label>
+              <div class="control">
+                <input id="Origine" class="input" type="text" placeholder="Lord of the ring">
+              </div>
+              <label class="label">Direction du personnage</label>
+              <div class="select">
+                <select id ="Direction">
+                  <option>Left</option>
+                  <option>Right</option>
+                </select>
+              </div>
+              <label class="label">Url de l'image</label>
+              <div class="control">
+                <input id="lien" class="input" type="text" placeholder="http://monimage.jpg">
+              </div><br>
+              </section>
+              <footer class="modal-card-foot" style="justify-content: flex-end">
+                     <button class="button is-link" id="VerifFormAdd">Valider</button>
+                     <button class="button is-link is-light" onclick="FermeModalAjout()">Annuler</button>
+              </footer>
+        </div>
+      </div>
+    <!-- Boîte modale modif citation -->
+    <div class="modal" id="mdl-modifCitation">
+      <div class="modal-background"></div>
+           <div class="modal-card">
+           <header class="modal-card-head">
+             <p class="modal-card-title" >Modifier la citation</p>
+             <button class="delete" aria-label="close" onclick="FermeModalModif()"></button>
+           </header>
+           <section class="modal-card-body">
+             <label class="label">Citation</label>
+               <div class="control">
+                <textarea id="QuoteModif" class="textarea" placeholder="you sall not pass" rows="2" required></textarea>
+               </div>
+             <label class="label">Personnage</label>
+               <div class="control">
+                 <input id="PersoModif" class="input" type="text" placeholder="Gandalf">
+               </div>
+               <label class="label">Origine</label>
+               <div class="control">
+                 <input id="OrigineModif" class="input" type="text" placeholder="Lord of the ring">
+               </div>
+               <label class="label">Direction du personnage</label>
+               <div class="select">
+                 <select id ="DirectionModif">
+                   <option>Left</option>
+                   <option>Right</option>
+                 </select>
+               </div>
+               <label class="label">Url de l'image</label>
+               <div class="control">
+                 <input id="lienModif" class="input" type="text" placeholder="http://monimage.jpg">
+               </div><br>
+               </section>
+               <footer class="modal-card-foot" style="justify-content: flex-end">
+                      <button class="button is-link" id="VerifFormModif">Valider</button>
+                      <button class="button is-link is-light" onclick="FermeModalModif()">Annuler</button>
+               </footer>
+         </div>
+       </div>
+
+   <!-- fichier javascript -->
+    <script src="client.js"></script>
+  </body>
+</html>
